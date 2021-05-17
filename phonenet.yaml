@@ -2,10 +2,10 @@
   "openapi" : "3.0.0",
   "info" : {
     "title" : "APIs document Phonenet",
-    "description" : "Test APIs document Swagger",
+    "description" : "Test APIs document Phonenet",
     "termsOfService" : "http://swagger.io/terms/",
     "contact" : {
-      "email" : "apiteam@swagger.io"
+      "email" : "trangbn@gadget.com.vn"
     },
     "license" : {
       "name" : "Apache 2.0",
@@ -14,58 +14,47 @@
     "version" : "1.0.0"
   },
   "servers" : [ {
-    "url" : "https://virtserver.swaggerhub.com/test-swagger/1.0.0",
-    "description" : "SwaggerHub API Auto Mocking"
+    "url" : "https://clientapidev.phonenet.io",
+    "description" : "Phonenet API Auto Mocking"
+  } ],
+  "security" : [ {
+    "api_key" : [ "token" ]
   } ],
   "tags" : [ {
-    "name" : "user",
-    "description" : "Operations about user"
+    "name" : "Contact",
+    "description" : "Operations about contact"
   } ],
   "paths" : {
-    "/user" : {
-      "post" : {
-        "tags" : [ "user" ],
-        "summary" : "Create user",
-        "description" : "This can only be done by the logged in user.",
-        "operationId" : "createUser",
-        "requestBody" : {
-          "description" : "Created user object",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/User"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "default" : {
-            "description" : "successful operation"
-          }
-        }
-      }
-    },
-    "/user/login" : {
+    "/customer" : {
       "get" : {
-        "tags" : [ "user" ],
-        "summary" : "Logs user into the system",
+        "tags" : [ "customer" ],
+        "summary" : "Get the contact list of customer",
         "operationId" : "loginUser",
         "parameters" : [ {
-          "name" : "username",
+          "name" : "findIn",
           "in" : "query",
-          "description" : "The user name for login",
-          "required" : true,
+          "description" : "The scope to search customer",
+          "required" : false,
           "style" : "form",
           "explode" : true,
           "schema" : {
             "type" : "string"
           }
         }, {
-          "name" : "password",
+          "name" : "page",
           "in" : "query",
-          "description" : "The password for login in clear text",
-          "required" : true,
+          "description" : "The current page from response",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pageSize",
+          "in" : "query",
+          "description" : "Number record per page",
+          "required" : false,
           "style" : "form",
           "explode" : true,
           "schema" : {
@@ -113,23 +102,11 @@
           }
         }
       }
-    },
-    "/user/logout" : {
-      "get" : {
-        "tags" : [ "user" ],
-        "summary" : "Logs out current logged in user session",
-        "operationId" : "logoutUser",
-        "responses" : {
-          "default" : {
-            "description" : "successful operation"
-          }
-        }
-      }
     }
   },
   "components" : {
     "schemas" : {
-      "User" : {
+      "Customer" : {
         "type" : "object",
         "properties" : {
           "id" : {
@@ -156,12 +133,12 @@
           },
           "userStatus" : {
             "type" : "integer",
-            "description" : "User Status",
+            "description" : "Customer Status",
             "format" : "int32"
           }
         },
         "xml" : {
-          "name" : "User"
+          "name" : "Customer"
         }
       }
     },
@@ -173,7 +150,7 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/components/schemas/User"
+                "$ref" : "#/components/schemas/Customer"
               }
             }
           }
@@ -182,21 +159,9 @@
       }
     },
     "securitySchemes" : {
-      "test_auth" : {
-        "type" : "oauth2",
-        "flows" : {
-          "implicit" : {
-            "authorizationUrl" : "http://test-swagger.herokuapp.com",
-            "scopes" : {
-              "write:users" : "modify your account",
-              "read:users" : "read your information"
-            }
-          }
-        }
-      },
       "api_key" : {
         "type" : "apiKey",
-        "name" : "api_key",
+        "name" : "token",
         "in" : "header"
       }
     }
