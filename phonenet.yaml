@@ -109,36 +109,50 @@
       "Customer" : {
         "type" : "object",
         "properties" : {
-          "id" : {
-            "type" : "integer",
-            "format" : "int64"
+          "client" : {
+            "type" : "number"
           },
-          "username" : {
+          "user" : {
+            "type" : "number"
+          },
+          "users" : {
+            "type" : "array",
+            "items" : {
+              "type" : "number"
+            }
+          },
+          "name" : {
             "type" : "string"
           },
-          "firstName" : {
+          "desc" : {
             "type" : "string"
           },
-          "lastName" : {
-            "type" : "string"
+          "mainContact" : {
+            "type" : "number"
           },
-          "email" : {
-            "type" : "string"
+          "createTime" : {
+            "type" : "number"
           },
-          "password" : {
-            "type" : "string"
+          "updateTime" : {
+            "type" : "number"
           },
-          "phone" : {
-            "type" : "string"
-          },
-          "userStatus" : {
-            "type" : "integer",
-            "description" : "Customer Status",
-            "format" : "int32"
+          "customFields" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Customer_customFields"
+            }
           }
-        },
-        "xml" : {
-          "name" : "Customer"
+        }
+      },
+      "Customer_customFields" : {
+        "type" : "object",
+        "properties" : {
+          "key" : {
+            "type" : "string"
+          },
+          "value" : {
+            "type" : "string"
+          }
         }
       }
     },
