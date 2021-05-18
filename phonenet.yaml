@@ -33,7 +33,7 @@
         "parameters" : [ {
           "name" : "findIn",
           "in" : "query",
-          "description" : "The scope to search customer (contact - search in contact)",
+          "description" : "The scope to search customer (contact, customer)",
           "required" : false,
           "style" : "form",
           "explode" : true,
@@ -149,6 +149,27 @@
           },
           "400" : {
             "description" : "Invalid username/password supplied"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "customer" ],
+        "summary" : "Create new customer",
+        "operationId" : "createCustomer",
+        "requestBody" : {
+          "description" : "Optional description in *Markdown*",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Customer"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created"
           }
         }
       }
