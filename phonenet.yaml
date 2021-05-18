@@ -21,8 +21,8 @@
     "api_key" : [ "token" ]
   } ],
   "tags" : [ {
-    "name" : "Contact",
-    "description" : "Operations about contact"
+    "name" : "customer",
+    "description" : "Operations about customer"
   } ],
   "paths" : {
     "/customer" : {
@@ -278,6 +278,49 @@
           },
           "400" : {
             "description" : "Invalid username/password supplied"
+          }
+        }
+      }
+    },
+    "/contact" : {
+      "get" : {
+        "tags" : [ "customer" ],
+        "summary" : "Make a fast call. Further information and source code (https://github.com/gadgetvn/phonenet-sdk)",
+        "operationId" : "clickCall",
+        "parameters" : [ {
+          "name" : "phone",
+          "in" : "query",
+          "description" : "Dialing phone number",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "The current page",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pageSize",
+          "in" : "query",
+          "description" : "Number of record per page",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "make call successfully"
           }
         }
       }
