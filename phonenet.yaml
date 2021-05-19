@@ -32,7 +32,7 @@
         "parameters" : [ {
           "name" : "page",
           "in" : "query",
-          "description" : "The current page",
+          "description" : "The beginning position of list",
           "required" : true,
           "style" : "form",
           "explode" : true,
@@ -112,7 +112,7 @@
         }, {
           "name" : "from",
           "in" : "query",
-          "description" : "Time from",
+          "description" : "Create time from",
           "required" : false,
           "style" : "form",
           "explode" : true,
@@ -122,7 +122,7 @@
         }, {
           "name" : "to",
           "in" : "query",
-          "description" : "Time to",
+          "description" : "Create time to",
           "required" : false,
           "style" : "form",
           "explode" : true,
@@ -132,12 +132,13 @@
         }, {
           "name" : "sort",
           "in" : "query",
-          "description" : "The order of returned opportunities",
+          "description" : "Sort order:\n * `createTimeDESC` - New to old\n * `createTimeASC` - Old to new\n * `updateTimeDESC` - Recently update\n * `updateTimeASC` - Not recently update\n",
           "required" : false,
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "enum" : [ "createTimeDESC", "createTimeASC", "updateTimeDESC", "updateTimeASC" ]
           }
         } ],
         "responses" : {
@@ -219,6 +220,17 @@
             "type" : "string"
           }
         } ],
+        "requestBody" : {
+          "description" : "Optional description in *Markdown*",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Opportunity"
+              }
+            }
+          },
+          "required" : true
+        },
         "responses" : {
           "200" : {
             "description" : "successful operation",
@@ -315,6 +327,38 @@
           },
           "400" : {
             "description" : "Invalid username/password supplied"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "opportunity" ],
+        "summary" : "Update opportunity",
+        "operationId" : "updateOpportunity",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The id of opportunity",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "description" : "Optional description in *Markdown*",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Opportunity"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
           }
         }
       }
@@ -586,7 +630,7 @@
         }, {
           "name" : "page",
           "in" : "query",
-          "description" : "The current page",
+          "description" : "The beginning position of list",
           "required" : true,
           "style" : "form",
           "explode" : true,
