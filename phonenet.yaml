@@ -50,16 +50,6 @@
             "type" : "string"
           }
         }, {
-          "name" : "status",
-          "in" : "query",
-          "description" : "Status of opportunity",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
           "name" : "keyword",
           "in" : "query",
           "description" : "The search keyword",
@@ -100,16 +90,6 @@
             "type" : "string"
           }
         }, {
-          "name" : "time",
-          "in" : "query",
-          "description" : "Time at creation or updating (createTime,updateTime)",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
           "name" : "from",
           "in" : "query",
           "description" : "Create time from",
@@ -130,6 +110,27 @@
             "type" : "number"
           }
         }, {
+          "name" : "status",
+          "in" : "query",
+          "description" : "Status of opportunity:\n  * `new` - new \n  * `won` - won \n  * `lost` - lost \n  * other custom value\n",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "time",
+          "in" : "query",
+          "description" : "Time at creation or updating:\n  * `createTime`- create time \n  * `updateTime`- update time\n",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "createTime", "updateTime" ]
+          }
+        }, {
           "name" : "sort",
           "in" : "query",
           "description" : "Sort order:\n * `createTimeDESC` - New to old\n * `createTimeASC` - Old to new\n * `updateTimeDESC` - Recently update\n * `updateTimeASC` - Not recently update\n",
@@ -144,35 +145,10 @@
         "responses" : {
           "200" : {
             "description" : "successful operation",
-            "headers" : {
-              "X-Rate-Limit" : {
-                "description" : "calls per hour allowed by the user",
-                "style" : "simple",
-                "explode" : false,
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Expires-After" : {
-                "description" : "date in UTC when token expires",
-                "style" : "simple",
-                "explode" : false,
-                "schema" : {
-                  "type" : "string",
-                  "format" : "date-time"
-                }
-              }
-            },
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/inline_response_200"
                 }
               }
             }
@@ -446,7 +422,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_200"
+                  "$ref" : "#/components/schemas/inline_response_200_1"
                 }
               }
             }
@@ -552,7 +528,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_200_1"
+                  "$ref" : "#/components/schemas/inline_response_200_2"
                 },
                 "example" : {
                   "docs" : [ {
@@ -612,7 +588,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_200_2"
+                  "$ref" : "#/components/schemas/inline_response_200_3"
                 },
                 "example" : {
                   "gender" : "unknown",
@@ -876,7 +852,104 @@
           },
           "nextPage" : {
             "type" : "integer"
+          },
+          "report" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_report"
+            }
           }
+        },
+        "example" : {
+          "docs" : [ {
+            "_id" : "60a547dc6e38c20161664fb2",
+            "users" : [ ],
+            "estimatedCloseTime" : 1622049372253,
+            "wonTime" : 0,
+            "lostTime" : 0,
+            "cancelTime" : 0,
+            "notifyTime" : 0,
+            "createTime" : 1621444572213,
+            "updateTime" : 1621444572213,
+            "client" : "5e587b29356b577b2d0a279d",
+            "customer" : {
+              "_id" : "60a547dc6e38c20161664fb0",
+              "users" : [ ],
+              "createTime" : 1621444572210,
+              "updateTime" : 1621444572215,
+              "name" : "company 3",
+              "client" : "5e587b29356b577b2d0a279d",
+              "__v" : 0,
+              "mainContact" : "60a547dc6e38c20161664fb1",
+              "user" : "5efc5b11c441961ffe743f09"
+            },
+            "contact" : {
+              "_id" : "60a547dc6e38c20161664fb1",
+              "gender" : "unknown",
+              "createTime" : 1621444572211,
+              "customFields" : [ ],
+              "customer" : "60a547dc6e38c20161664fb0",
+              "client" : "5e587b29356b577b2d0a279d",
+              "name" : "bob",
+              "phone" : 9.88868888E8,
+              "email" : "abcs@gmail.com",
+              "facebook" : "testfacesbook",
+              "address" : "awesome address",
+              "title" : "boss",
+              "__v" : 0
+            },
+            "user" : {
+              "_id" : "5efc5b11c441961ffe743f09",
+              "active" : true,
+              "role" : "owner",
+              "email" : "trangbn@gadget.com.vn",
+              "ext" : "191981",
+              "createTime" : 1593596689374,
+              "client" : "5e587b29356b577b2d0a279d",
+              "name" : "TrangBN",
+              "language" : "en",
+              "password" : "$2a$10$zeAgFKQJpOhiGyT2jvju8.l9bgQH198EKCCW2o214vnskHDoNbwY2",
+              "extPassword" : "caigido",
+              "__v" : 0,
+              "socketId" : "/client#x-2RuYgsddQ0TsMTBFP0",
+              "phone" : 9.6981658E8,
+              "lastOnlineTime" : 0,
+              "updateTime" : 0
+            },
+            "name" : "company 3",
+            "status" : "new",
+            "confidence" : 50,
+            "amount" : 0,
+            "__v" : 0,
+            "id" : "60a547dc6e38c20161664fb2"
+          } ],
+          "totalDocs" : 246,
+          "limit" : 1,
+          "totalPages" : 246,
+          "page" : 1,
+          "pagingCounter" : 1,
+          "hasPrevPage" : false,
+          "hasNextPage" : true,
+          "nextPage" : 2,
+          "report" : [ {
+            "_id" : "thang-05",
+            "total" : 0
+          }, {
+            "_id" : "dang-cho",
+            "total" : 1000000
+          }, {
+            "_id" : "new",
+            "total" : 17842594
+          }, {
+            "_id" : "canceled",
+            "total" : 123456
+          }, {
+            "_id" : "tam-11",
+            "total" : 10000
+          }, {
+            "_id" : "won",
+            "total" : 1600100
+          } ]
         }
       },
       "inline_response_200_1" : {
@@ -918,6 +991,44 @@
         }
       },
       "inline_response_200_2" : {
+        "type" : "object",
+        "properties" : {
+          "docs" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_2_docs"
+            }
+          },
+          "totalDocs" : {
+            "type" : "integer"
+          },
+          "limit" : {
+            "type" : "integer"
+          },
+          "totalPages" : {
+            "type" : "integer"
+          },
+          "page" : {
+            "type" : "integer"
+          },
+          "pagingCounter" : {
+            "type" : "integer"
+          },
+          "hasPrevPage" : {
+            "type" : "boolean"
+          },
+          "hasNextPage" : {
+            "type" : "boolean"
+          },
+          "prevPage" : {
+            "type" : "integer"
+          },
+          "nextPage" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_3" : {
         "type" : "object",
         "properties" : {
           "gender" : {
@@ -974,7 +1085,215 @@
           }
         }
       },
-      "inline_response_200_mainContact" : {
+      "inline_response_200_customer" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string"
+          },
+          "users" : {
+            "type" : "array",
+            "items" : { }
+          },
+          "createTime" : {
+            "type" : "integer"
+          },
+          "updateTime" : {
+            "type" : "integer"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "client" : {
+            "type" : "string"
+          },
+          "__v" : {
+            "type" : "integer"
+          },
+          "mainContact" : {
+            "type" : "string"
+          },
+          "user" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_200_contact" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string"
+          },
+          "gender" : {
+            "type" : "string"
+          },
+          "createTime" : {
+            "type" : "integer"
+          },
+          "customFields" : {
+            "type" : "array",
+            "items" : { }
+          },
+          "customer" : {
+            "type" : "string"
+          },
+          "client" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "phone" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "facebook" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "__v" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_user" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string"
+          },
+          "active" : {
+            "type" : "boolean"
+          },
+          "role" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "group" : {
+            "type" : "string"
+          },
+          "ext" : {
+            "type" : "string"
+          },
+          "createTime" : {
+            "type" : "integer"
+          },
+          "client" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "language" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          },
+          "extPassword" : {
+            "type" : "string"
+          },
+          "__v" : {
+            "type" : "integer"
+          },
+          "socketId" : {
+            "type" : "string"
+          },
+          "phone" : {
+            "type" : "string"
+          },
+          "lastOnlineTime" : {
+            "type" : "integer"
+          },
+          "updateTime" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_docs" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string"
+          },
+          "users" : {
+            "type" : "array",
+            "items" : { }
+          },
+          "estimatedCloseTime" : {
+            "type" : "integer"
+          },
+          "wonTime" : {
+            "type" : "integer"
+          },
+          "lostTime" : {
+            "type" : "integer"
+          },
+          "cancelTime" : {
+            "type" : "integer"
+          },
+          "notifyTime" : {
+            "type" : "integer"
+          },
+          "createTime" : {
+            "type" : "integer"
+          },
+          "updateTime" : {
+            "type" : "integer"
+          },
+          "client" : {
+            "type" : "string"
+          },
+          "customer" : {
+            "$ref" : "#/components/schemas/inline_response_200_customer"
+          },
+          "contact" : {
+            "$ref" : "#/components/schemas/inline_response_200_contact"
+          },
+          "user" : {
+            "$ref" : "#/components/schemas/inline_response_200_user"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string"
+          },
+          "confidence" : {
+            "type" : "integer"
+          },
+          "amount" : {
+            "type" : "integer"
+          },
+          "__v" : {
+            "type" : "integer"
+          },
+          "id" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_200_report" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string"
+          },
+          "total" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_1_mainContact" : {
         "type" : "object",
         "properties" : {
           "gender" : {
@@ -1007,7 +1326,7 @@
           }
         }
       },
-      "inline_response_200_user" : {
+      "inline_response_200_1_user" : {
         "type" : "object",
         "properties" : {
           "active" : {
@@ -1087,7 +1406,7 @@
           }
         }
       },
-      "inline_response_200_docs" : {
+      "inline_response_200_1_docs" : {
         "type" : "object",
         "properties" : {
           "users" : {
@@ -1113,10 +1432,10 @@
             "type" : "integer"
           },
           "mainContact" : {
-            "$ref" : "#/components/schemas/inline_response_200_mainContact"
+            "$ref" : "#/components/schemas/inline_response_200_1_mainContact"
           },
           "user" : {
-            "$ref" : "#/components/schemas/inline_response_200_user"
+            "$ref" : "#/components/schemas/inline_response_200_1_user"
           },
           "customFields" : {
             "type" : "array",
@@ -1127,7 +1446,7 @@
           }
         }
       },
-      "inline_response_200_1_docs" : {
+      "inline_response_200_2_docs" : {
         "type" : "object",
         "properties" : {
           "active" : {
