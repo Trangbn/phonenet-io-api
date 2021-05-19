@@ -368,17 +368,6 @@
         "tags" : [ "customer" ],
         "summary" : "Get customer contacts",
         "parameters" : [ {
-          "name" : "findIn",
-          "in" : "query",
-          "description" : "Search by:\n * `contact` - Contact info\n * `customer` - Customer info\n",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string",
-            "enum" : [ "contact", "customer" ]
-          }
-        }, {
           "name" : "page",
           "in" : "query",
           "description" : "The beginning position of list",
@@ -429,6 +418,17 @@
             "type" : "string"
           }
         }, {
+          "name" : "findIn",
+          "in" : "query",
+          "description" : "Search by:\n * `contact` - Contact info\n * `customer` - Customer info\n",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "contact", "customer" ]
+          }
+        }, {
           "name" : "sort",
           "in" : "query",
           "description" : "Sort order:\n * `createTimeDESC` - New to old\n * `createTimeASC` - Old to new\n * `updateTimeDESC` - Recently update\n * `updateTimeASC` - Not recently update\n * `nameASC` - Name A to Z\n * `nameDESC` - Name Z to A\n",
@@ -443,35 +443,10 @@
         "responses" : {
           "200" : {
             "description" : "successful operation",
-            "headers" : {
-              "X-Rate-Limit" : {
-                "description" : "calls per hour allowed by the user",
-                "style" : "simple",
-                "explode" : false,
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Expires-After" : {
-                "description" : "date in UTC when token expires",
-                "style" : "simple",
-                "explode" : false,
-                "schema" : {
-                  "type" : "string",
-                  "format" : "date-time"
-                }
-              }
-            },
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/inline_response_200"
                 }
               }
             }
@@ -497,8 +472,8 @@
           "required" : true
         },
         "responses" : {
-          "201" : {
-            "description" : "Created"
+          "200" : {
+            "description" : "OK"
           }
         }
       }
@@ -511,12 +486,13 @@
         "parameters" : [ {
           "name" : "status",
           "in" : "query",
-          "description" : "Status of internal customer (\"active\" - 0)",
+          "description" : "available status:\n  * `0` - active\n  * `1` - not active\n",
           "required" : true,
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "number"
+            "type" : "number",
+            "enum" : [ 0, 1 ]
           }
         }, {
           "name" : "page",
@@ -573,110 +549,94 @@
         "responses" : {
           "200" : {
             "description" : "successful operation",
-            "headers" : {
-              "X-Rate-Limit" : {
-                "description" : "calls per hour allowed by the user",
-                "style" : "simple",
-                "explode" : false,
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Expires-After" : {
-                "description" : "date in UTC when token expires",
-                "style" : "simple",
-                "explode" : false,
-                "schema" : {
-                  "type" : "string",
-                  "format" : "date-time"
-                }
-              }
-            },
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/inline_response_200_1"
+                },
+                "example" : {
+                  "docs" : [ {
+                    "active" : true,
+                    "role" : "owner",
+                    "updateTime" : 0,
+                    "lastOnlineTime" : 0,
+                    "_id" : "60a26ce6d6381856dd400340",
+                    "email" : "duynguyen@smart-one.io",
+                    "password" : "$2a$10$yn../k0B84.guNLwKQhmpOW1STlVi5sUG0yOp.DBSo5T1SVna1v4u",
+                    "name" : "Nguyễn Duy",
+                    "phone" : "",
+                    "ext" : "80008",
+                    "extPassword" : "a12345678",
+                    "createTime" : 1621257446467,
+                    "client" : "5e587b29356b577b2d0a279d",
+                    "language" : "vi",
+                    "__v" : 0,
+                    "socketId" : "/client#1ftbS_Gyp7waQ3HmBChT",
+                    "desc" : "",
+                    "id" : "60a26ce6d6381856dd400340"
+                  } ],
+                  "totalDocs" : 26,
+                  "limit" : 1,
+                  "totalPages" : 26,
+                  "page" : 1,
+                  "pagingCounter" : 1,
+                  "hasPrevPage" : false,
+                  "hasNextPage" : true,
+                  "nextPage" : 2
                 }
               }
             }
-          },
-          "400" : {
-            "description" : "Invalid username/password supplied"
           }
         }
       }
     },
-    "/contact" : {
+    "/contact/{id}" : {
       "get" : {
         "tags" : [ "customer" ],
-        "summary" : "Get contact customer by phone number",
-        "operationId" : "clickCall",
+        "summary" : "Get contact by id",
+        "operationId" : "getContactById",
         "parameters" : [ {
-          "name" : "phone",
-          "in" : "query",
-          "description" : "Dialing phone number",
+          "name" : "id",
+          "in" : "path",
+          "description" : "The id of contact",
           "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "page",
-          "in" : "query",
-          "description" : "The beginning position of list",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "pageSize",
-          "in" : "query",
-          "description" : "Number of record per page",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
+          "style" : "simple",
+          "explode" : false,
           "schema" : {
             "type" : "string"
           }
         } ],
         "responses" : {
           "200" : {
-            "description" : "make call successfully"
-          }
-        }
-      },
-      "post" : {
-        "tags" : [ "customer" ],
-        "summary" : "Create new contact for customer",
-        "operationId" : "createContact",
-        "requestBody" : {
-          "description" : "Optional description in *Markdown*",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Contact"
+            "description" : "Response body",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_2"
+                },
+                "example" : {
+                  "gender" : "unknown",
+                  "_id" : "60a547dc6e38c20161664fb1",
+                  "createTime" : 1621444572211,
+                  "customFields" : [ ],
+                  "customer" : "60a547dc6e38c20161664fb0",
+                  "client" : "5e587b29356b577b2d0a279d",
+                  "name" : "bob",
+                  "phone" : 9.88868888E8,
+                  "email" : "abcs@gmail.com",
+                  "facebook" : "testfacesbook",
+                  "address" : "awesome address",
+                  "title" : "boss",
+                  "__v" : 0
+                }
               }
             }
           },
-          "required" : true
-        },
-        "responses" : {
-          "201" : {
-            "description" : "Created"
+          "404" : {
+            "description" : "Not found"
           }
         }
-      }
-    },
-    "/contact/{id}" : {
+      },
       "delete" : {
         "tags" : [ "customer" ],
         "summary" : "Delete contact of customer",
@@ -684,7 +644,7 @@
         "parameters" : [ {
           "name" : "id",
           "in" : "path",
-          "description" : "The id of opportunity",
+          "description" : "The id of contact",
           "required" : true,
           "style" : "simple",
           "explode" : false,
@@ -706,41 +666,54 @@
   "components" : {
     "schemas" : {
       "Customer" : {
+        "required" : [ "contactName", "customerName" ],
         "type" : "object",
         "properties" : {
-          "client" : {
-            "type" : "number"
+          "autoCreateOpportunity" : {
+            "type" : "boolean"
           },
           "user" : {
-            "type" : "number"
+            "type" : "string"
+          },
+          "phone" : {
+            "type" : "string"
+          },
+          "customerName" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string"
+          },
+          "contactName" : {
+            "type" : "string"
+          },
+          "facebook" : {
+            "type" : "string"
           },
           "users" : {
             "type" : "array",
             "items" : {
-              "type" : "number"
-            }
-          },
-          "name" : {
-            "type" : "string"
-          },
-          "desc" : {
-            "type" : "string"
-          },
-          "mainContact" : {
-            "type" : "number"
-          },
-          "createTime" : {
-            "type" : "number"
-          },
-          "updateTime" : {
-            "type" : "number"
-          },
-          "customFields" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/Customer_customFields"
+              "type" : "string"
             }
           }
+        },
+        "example" : {
+          "autoCreateOpportunity" : true,
+          "user" : "5efc5b11c441961ffe743f09",
+          "phone" : 9.88888888E8,
+          "customerName" : "company 1",
+          "email" : "abc@gmail.com",
+          "title" : "boss",
+          "address" : "awesome address",
+          "contactName" : "bob",
+          "facebook" : "testfacebook",
+          "users" : [ "609972fe12a7a63e4cdce333" ]
         }
       },
       "Opportunity" : {
@@ -868,14 +841,124 @@
           }
         }
       },
-      "Customer_customFields" : {
+      "inline_response_200" : {
         "type" : "object",
         "properties" : {
-          "key" : {
+          "docs" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_docs"
+            }
+          },
+          "totalDocs" : {
+            "type" : "integer"
+          },
+          "limit" : {
+            "type" : "integer"
+          },
+          "totalPages" : {
+            "type" : "integer"
+          },
+          "page" : {
+            "type" : "integer"
+          },
+          "pagingCounter" : {
+            "type" : "integer"
+          },
+          "hasPrevPage" : {
+            "type" : "boolean"
+          },
+          "hasNextPage" : {
+            "type" : "boolean"
+          },
+          "prevPage" : {
+            "type" : "integer"
+          },
+          "nextPage" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_1" : {
+        "type" : "object",
+        "properties" : {
+          "docs" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_1_docs"
+            }
+          },
+          "totalDocs" : {
+            "type" : "integer"
+          },
+          "limit" : {
+            "type" : "integer"
+          },
+          "totalPages" : {
+            "type" : "integer"
+          },
+          "page" : {
+            "type" : "integer"
+          },
+          "pagingCounter" : {
+            "type" : "integer"
+          },
+          "hasPrevPage" : {
+            "type" : "boolean"
+          },
+          "hasNextPage" : {
+            "type" : "boolean"
+          },
+          "prevPage" : {
+            "type" : "integer"
+          },
+          "nextPage" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_2" : {
+        "type" : "object",
+        "properties" : {
+          "gender" : {
             "type" : "string"
           },
-          "value" : {
+          "_id" : {
             "type" : "string"
+          },
+          "createTime" : {
+            "type" : "integer"
+          },
+          "customFields" : {
+            "type" : "array",
+            "items" : { }
+          },
+          "customer" : {
+            "type" : "string"
+          },
+          "client" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "phone" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "facebook" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "__v" : {
+            "type" : "integer"
           }
         }
       },
@@ -888,6 +971,221 @@
           "index" : {
             "type" : "boolean",
             "default" : true
+          }
+        }
+      },
+      "inline_response_200_mainContact" : {
+        "type" : "object",
+        "properties" : {
+          "gender" : {
+            "type" : "string"
+          },
+          "_id" : {
+            "type" : "string"
+          },
+          "createTime" : {
+            "type" : "integer"
+          },
+          "customFields" : {
+            "type" : "array",
+            "items" : { }
+          },
+          "customer" : {
+            "type" : "string"
+          },
+          "client" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "phone" : {
+            "type" : "string"
+          },
+          "__v" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_user" : {
+        "type" : "object",
+        "properties" : {
+          "active" : {
+            "type" : "boolean"
+          },
+          "role" : {
+            "type" : "string"
+          },
+          "updateTime" : {
+            "type" : "integer"
+          },
+          "lastOnlineTime" : {
+            "type" : "integer"
+          },
+          "_id" : {
+            "type" : "string"
+          },
+          "createTime" : {
+            "type" : "integer"
+          },
+          "client" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          },
+          "ext" : {
+            "type" : "string"
+          },
+          "extPassword" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "phone" : {
+            "type" : "string"
+          },
+          "__v" : {
+            "type" : "integer"
+          },
+          "forwardToPhoneIfBusy" : {
+            "type" : "boolean"
+          },
+          "forwardToPhoneIfOffline" : {
+            "type" : "boolean"
+          },
+          "forwardToPhoneIfTimeout" : {
+            "type" : "boolean"
+          },
+          "socketId" : {
+            "type" : "string"
+          },
+          "desc" : {
+            "type" : "string"
+          },
+          "language" : {
+            "type" : "string"
+          },
+          "online" : {
+            "type" : "boolean"
+          },
+          "group" : {
+            "type" : "string"
+          },
+          "resetPasswordToken" : {
+            "type" : "string"
+          },
+          "resetPasswordTokenTime" : {
+            "type" : "integer"
+          },
+          "id" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_200_docs" : {
+        "type" : "object",
+        "properties" : {
+          "users" : {
+            "type" : "array",
+            "items" : { }
+          },
+          "_id" : {
+            "type" : "string"
+          },
+          "createTime" : {
+            "type" : "integer"
+          },
+          "updateTime" : {
+            "type" : "integer"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "client" : {
+            "type" : "string"
+          },
+          "__v" : {
+            "type" : "integer"
+          },
+          "mainContact" : {
+            "$ref" : "#/components/schemas/inline_response_200_mainContact"
+          },
+          "user" : {
+            "$ref" : "#/components/schemas/inline_response_200_user"
+          },
+          "customFields" : {
+            "type" : "array",
+            "items" : { }
+          },
+          "id" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_200_1_docs" : {
+        "type" : "object",
+        "properties" : {
+          "active" : {
+            "type" : "boolean"
+          },
+          "role" : {
+            "type" : "string"
+          },
+          "updateTime" : {
+            "type" : "integer"
+          },
+          "lastOnlineTime" : {
+            "type" : "integer"
+          },
+          "_id" : {
+            "type" : "string"
+          },
+          "group" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "phone" : {
+            "type" : "string"
+          },
+          "ext" : {
+            "type" : "string"
+          },
+          "extPassword" : {
+            "type" : "string"
+          },
+          "createTime" : {
+            "type" : "integer"
+          },
+          "client" : {
+            "type" : "string"
+          },
+          "language" : {
+            "type" : "string"
+          },
+          "__v" : {
+            "type" : "integer"
+          },
+          "socketId" : {
+            "type" : "string"
+          },
+          "desc" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string"
           }
         }
       }
