@@ -180,6 +180,27 @@
             "description" : "Invalid username/password supplied"
           }
         }
+      },
+      "post" : {
+        "tags" : [ "opportunity" ],
+        "summary" : "Create new opportunity",
+        "operationId" : "createOpportunity",
+        "requestBody" : {
+          "description" : "Optional description in *Markdown*",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Opportunity"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created"
+          }
+        }
       }
     },
     "/customer" : {
