@@ -653,6 +653,27 @@
             "description" : "make call successfully"
           }
         }
+      },
+      "post" : {
+        "tags" : [ "customer" ],
+        "summary" : "Create new contact for customer",
+        "operationId" : "createContact",
+        "requestBody" : {
+          "description" : "Optional description in *Markdown*",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Contact"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created"
+          }
+        }
       }
     }
   },
