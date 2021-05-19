@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.0",
   "info" : {
-    "title" : "APIs document Phonenet",
+    "title" : "Phonenet APIs",
     "description" : "This is Phonenet API on sandbox environment. For this sample, you can use the api key to test the authorization filters. For the product environment, use this server  https://clientapi.phonenet.io.",
     "termsOfService" : "http://swagger.io/terms/",
     "contact" : {
