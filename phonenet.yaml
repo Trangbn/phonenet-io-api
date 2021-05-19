@@ -27,7 +27,7 @@
     "/opportunity" : {
       "get" : {
         "tags" : [ "opportunity" ],
-        "summary" : "Get the contact list of customers",
+        "summary" : "Get opportunities",
         "operationId" : "getOpportunity",
         "parameters" : [ {
           "name" : "page",
@@ -672,6 +672,32 @@
         "responses" : {
           "201" : {
             "description" : "Created"
+          }
+        }
+      }
+    },
+    "/contact/{id}" : {
+      "delete" : {
+        "tags" : [ "customer" ],
+        "summary" : "Delete contact of customer",
+        "operationId" : "deleteContact",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The id of opportunity",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "400" : {
+            "description" : "Invalid ID supplied"
+          },
+          "404" : {
+            "description" : "Contact not found"
           }
         }
       }
