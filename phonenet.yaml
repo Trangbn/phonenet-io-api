@@ -2,7 +2,7 @@
   "openapi" : "3.0.0",
   "info" : {
     "title" : "APIs document Phonenet",
-    "description" : "Test APIs document Phonenet",
+    "description" : "This is Phonenet API on sandbox environment. For this sample, you can use the api key to test the authorization filters. For the product environment, use this server  https://clientapi.phonenet.io.",
     "termsOfService" : "http://swagger.io/terms/",
     "contact" : {
       "email" : "trangbn@gadget.com.vn"
@@ -203,45 +203,161 @@
         }
       }
     },
+    "/opportunity/{id}/status" : {
+      "put" : {
+        "tags" : [ "opportunity" ],
+        "summary" : "Update status of opportunity",
+        "operationId" : "update status of opportunity",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The id of opportunity",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "headers" : {
+              "X-Rate-Limit" : {
+                "description" : "calls per hour allowed by the user",
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "integer",
+                  "format" : "int32"
+                }
+              },
+              "X-Expires-After" : {
+                "description" : "date in UTC when token expires",
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string",
+                  "format" : "date-time"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid username/password supplied"
+          }
+        }
+      }
+    },
+    "/opportunity/{id}" : {
+      "get" : {
+        "tags" : [ "opportunity" ],
+        "summary" : "Get the specific opportunity by id",
+        "operationId" : "getOpportunityById",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The id of opportunity",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "headers" : {
+              "X-Rate-Limit" : {
+                "description" : "calls per hour allowed by the user",
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "integer",
+                  "format" : "int32"
+                }
+              },
+              "X-Expires-After" : {
+                "description" : "date in UTC when token expires",
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string",
+                  "format" : "date-time"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              },
+              "application/xml" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid username/password supplied"
+          }
+        }
+      }
+    },
     "/customer" : {
       "get" : {
         "tags" : [ "customer" ],
-        "summary" : "Get the contact list of customers",
-        "operationId" : "customer",
+        "summary" : "Get customer contacts",
         "parameters" : [ {
           "name" : "findIn",
           "in" : "query",
-          "description" : "The scope to search customer (contact, customer)",
+          "description" : "Sort order:\n * `contact` - Contact info\n * `customer` - Customer info\n",
           "required" : false,
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "enum" : [ "contact", "customer" ]
           }
         }, {
           "name" : "page",
           "in" : "query",
-          "description" : "The current page from response",
-          "required" : false,
+          "description" : "The beginning position of list",
+          "required" : true,
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "string"
+            "type" : "number"
           }
         }, {
           "name" : "pageSize",
           "in" : "query",
-          "description" : "Number record per page",
-          "required" : false,
+          "description" : "Number of records per page",
+          "required" : true,
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "string"
+            "type" : "number"
           }
         }, {
           "name" : "keyword",
           "in" : "query",
-          "description" : "The keyword to search customer",
+          "description" : "Search keyword",
           "required" : false,
           "style" : "form",
           "explode" : true,
@@ -251,7 +367,7 @@
         }, {
           "name" : "group",
           "in" : "query",
-          "description" : "The group which customers are in",
+          "description" : "Search by group",
           "required" : false,
           "style" : "form",
           "explode" : true,
@@ -261,17 +377,7 @@
         }, {
           "name" : "user",
           "in" : "query",
-          "description" : "Indicate employee whom customer assigned to",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "customer",
-          "in" : "query",
-          "description" : "The custom fields for advanced search",
+          "description" : "Search by id of assignee",
           "required" : false,
           "style" : "form",
           "explode" : true,
@@ -281,12 +387,13 @@
         }, {
           "name" : "sort",
           "in" : "query",
-          "description" : "The order of returned customers",
+          "description" : "Sort order:\n * `createTimeDESC` - New to old\n * `createTimeASC` - Old to new\n * `updateTimeDESC` - Recently update\n * `updateTimeASC` - Not recently update\n * `nameASC` - Name A to Z\n * `nameDESC` - Name Z to A\n",
           "required" : false,
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "enum" : [ "createTimeDESC", "createTimeASC", "updateTimeDESC", "updateTimeASC", "nameASC", "nameDESC" ]
           }
         } ],
         "responses" : {
@@ -360,37 +467,37 @@
         "parameters" : [ {
           "name" : "status",
           "in" : "query",
-          "description" : "Status of internal customer (0 - active)",
+          "description" : "Status of internal customer (\"active\" - 0)",
           "required" : true,
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "string"
+            "type" : "number"
           }
         }, {
           "name" : "page",
           "in" : "query",
-          "description" : "The current page",
+          "description" : "The beginning position of list",
           "required" : true,
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "string"
+            "type" : "number"
           }
         }, {
           "name" : "pageSize",
           "in" : "query",
-          "description" : "Number of record per page",
+          "description" : "Number of records per page",
           "required" : true,
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "string"
+            "type" : "number"
           }
         }, {
           "name" : "keyword",
           "in" : "query",
-          "description" : "The keyword to search internal customer",
+          "description" : "Search by keyword",
           "required" : false,
           "style" : "form",
           "explode" : true,
@@ -400,7 +507,7 @@
         }, {
           "name" : "group",
           "in" : "query",
-          "description" : "The group which the internal customers are in",
+          "description" : "Search by group",
           "required" : false,
           "style" : "form",
           "explode" : true,
@@ -410,12 +517,13 @@
         }, {
           "name" : "sort",
           "in" : "query",
-          "description" : "The order of returned internal customer list",
+          "description" : "Sort order:\n * `createTimeDESC` - New to old\n * `createTimeASC` - Old to new\n * `nameASC` - Name A to Z\n * `nameDESC` - Name Z to A\n",
           "required" : false,
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "enum" : [ "createTimeDESC", "createTimeDESC", "nameASC", "nameDESC" ]
           }
         } ],
         "responses" : {
@@ -463,7 +571,7 @@
     "/contact" : {
       "get" : {
         "tags" : [ "customer" ],
-        "summary" : "Make a fast call. Further information and source code (https://github.com/gadgetvn/phonenet-sdk)",
+        "summary" : "Get contact customer by phone number",
         "operationId" : "clickCall",
         "parameters" : [ {
           "name" : "phone",
