@@ -752,6 +752,75 @@
           }
         }
       },
+      "Contact" : {
+        "type" : "object",
+        "properties" : {
+          "client" : {
+            "type" : "number"
+          },
+          "customer" : {
+            "type" : "number"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "company" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string"
+          },
+          "desc" : {
+            "type" : "string"
+          },
+          "gender" : {
+            "type" : "string",
+            "default" : "unknown",
+            "enum" : [ "unknown", "male", "female" ]
+          },
+          "dob" : {
+            "type" : "number"
+          },
+          "phone" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "facebook" : {
+            "type" : "string"
+          },
+          "createTime" : {
+            "type" : "number"
+          },
+          "updateTime" : {
+            "type" : "number"
+          },
+          "customFields" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/CustomerFields"
+            }
+          }
+        }
+      },
+      "CustomerFields" : {
+        "type" : "object",
+        "properties" : {
+          "key" : {
+            "$ref" : "#/components/schemas/CustomerFields_key"
+          },
+          "val" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/CustomerFields_key"
+            }
+          }
+        }
+      },
       "Customer_customFields" : {
         "type" : "object",
         "properties" : {
@@ -760,6 +829,18 @@
           },
           "value" : {
             "type" : "string"
+          }
+        }
+      },
+      "CustomerFields_key" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string"
+          },
+          "index" : {
+            "type" : "boolean",
+            "default" : true
           }
         }
       }
