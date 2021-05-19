@@ -370,7 +370,7 @@
         "parameters" : [ {
           "name" : "findIn",
           "in" : "query",
-          "description" : "Sort order:\n * `contact` - Contact info\n * `customer` - Customer info\n",
+          "description" : "Search by:\n * `contact` - Contact info\n * `customer` - Customer info\n",
           "required" : false,
           "style" : "form",
           "explode" : true,
