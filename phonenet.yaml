@@ -7,10 +7,6 @@
     "contact" : {
       "email" : "trangbn@gadget.com.vn"
     },
-    "license" : {
-      "name" : "Apache 2.0",
-      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
-    },
     "version" : "1.0.0"
   },
   "servers" : [ {
@@ -182,6 +178,27 @@
           },
           "400" : {
             "description" : "Invalid username/password supplied"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "opportunity" ],
+        "summary" : "Create new opportunity",
+        "operationId" : "createOpportunity",
+        "requestBody" : {
+          "description" : "Optional description in *Markdown*",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Opportunity"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created"
           }
         }
       }
@@ -524,6 +541,62 @@
             "items" : {
               "$ref" : "#/components/schemas/Customer_customFields"
             }
+          }
+        }
+      },
+      "Opportunity" : {
+        "type" : "object",
+        "properties" : {
+          "client" : {
+            "type" : "number"
+          },
+          "customer" : {
+            "type" : "number"
+          },
+          "contact" : {
+            "type" : "number"
+          },
+          "user" : {
+            "type" : "number"
+          },
+          "users" : {
+            "type" : "array",
+            "items" : {
+              "type" : "number"
+            }
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "amount" : {
+            "type" : "number"
+          },
+          "status" : {
+            "type" : "string"
+          },
+          "createTime" : {
+            "type" : "number"
+          },
+          "updateTime" : {
+            "type" : "number"
+          },
+          "confidence" : {
+            "type" : "number"
+          },
+          "estimatedCloseTime" : {
+            "type" : "number"
+          },
+          "wonTime" : {
+            "type" : "number"
+          },
+          "lostTime" : {
+            "type" : "number"
+          },
+          "cancelTime" : {
+            "type" : "number"
+          },
+          "notifyTime" : {
+            "type" : "number"
           }
         }
       },
