@@ -18,10 +18,10 @@
   } ],
   "tags" : [ {
     "name" : "customer",
-    "description" : "Operations about customer"
+    "description" : "These APIs support to create, get and update contact of customer"
   }, {
     "name" : "opportunity",
-    "description" : "Operations opportunity"
+    "description" : "These APIs support to create, get and update information of opportunity"
   } ],
   "paths" : {
     "/opportunity" : {
