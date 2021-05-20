@@ -226,7 +226,10 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/Opportunity"
+                "$ref" : "#/components/schemas/body_1"
+              },
+              "example" : {
+                "status" : "new"
               }
             }
           },
@@ -293,41 +296,31 @@
         "responses" : {
           "200" : {
             "description" : "successful operation",
-            "headers" : {
-              "X-Rate-Limit" : {
-                "description" : "calls per hour allowed by the user",
-                "style" : "simple",
-                "explode" : false,
-                "schema" : {
-                  "type" : "integer",
-                  "format" : "int32"
-                }
-              },
-              "X-Expires-After" : {
-                "description" : "date in UTC when token expires",
-                "style" : "simple",
-                "explode" : false,
-                "schema" : {
-                  "type" : "string",
-                  "format" : "date-time"
-                }
-              }
-            },
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "type" : "string"
-                }
-              },
-              "application/xml" : {
-                "schema" : {
-                  "type" : "string"
+                  "$ref" : "#/components/schemas/inline_response_200_1"
+                },
+                "example" : {
+                  "gender" : "unknown",
+                  "_id" : "60a5434c0cd4e415537da6d8",
+                  "createTime" : 1621443404152,
+                  "customFields" : [ ],
+                  "customer" : "60a5434c0cd4e415537da6d7",
+                  "client" : "5e587b29356b577b2d0a279d",
+                  "name" : "contactname",
+                  "phone" : 9.88888886E8,
+                  "email" : "comany2@gadget.com.vn",
+                  "facebook" : "noface",
+                  "address" : "awesomeaddress ",
+                  "title" : "jobtitle1",
+                  "__v" : 0
                 }
               }
             }
           },
-          "400" : {
-            "description" : "Invalid username/password supplied"
+          "404" : {
+            "description" : "Not found"
           }
         }
       },
@@ -351,7 +344,26 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/Opportunity"
+                "$ref" : "#/components/schemas/body_2"
+              },
+              "example" : {
+                "users" : [ "609972fe12a7a63e4cdce333" ],
+                "estimatedCloseTime" : 1622048204177,
+                "wonTime" : 0,
+                "lostTime" : 0,
+                "cancelTime" : 0,
+                "notifyTime" : 0,
+                "_id" : "60a5434c0cd4e415537da6d9",
+                "createTime" : 1621443404153,
+                "updateTime" : 1621443404153,
+                "customer" : "60a5434c0cd4e415537da6d7",
+                "contact" : "60a5434c0cd4e415537da6d8",
+                "user" : "5efc5b11c441961ffe743f09",
+                "name" : "comapny02",
+                "status" : "new",
+                "confidence" : 50,
+                "amount" : 0,
+                "id" : "60a5434c0cd4e415537da6d9"
               }
             }
           },
@@ -447,7 +459,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_200_1"
+                  "$ref" : "#/components/schemas/inline_response_200_2"
                 }
               }
             }
@@ -553,7 +565,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_200_2"
+                  "$ref" : "#/components/schemas/inline_response_200_3"
                 },
                 "example" : {
                   "docs" : [ {
@@ -613,7 +625,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_200_3"
+                  "$ref" : "#/components/schemas/inline_response_200_1"
                 },
                 "example" : {
                   "gender" : "unknown",
@@ -635,6 +647,48 @@
           },
           "404" : {
             "description" : "Not found"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "customer" ],
+        "summary" : "Update contact of customer",
+        "operationId" : "updateContact",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The id of contact",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "response body",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_4"
+                },
+                "example" : {
+                  "gender" : "unknown",
+                  "_id" : "60a5434c0cd4e415537da6d8",
+                  "createTime" : 1621443404152,
+                  "customer" : "60a5434c0cd4e415537da6d7",
+                  "client" : "5e587b29356b577b2d0a279d",
+                  "name" : "contactname",
+                  "phone" : 9.88888886E8,
+                  "email" : "comany2@gadget.com.vn",
+                  "facebook" : "noface",
+                  "address" : "awesomeaddress ",
+                  "title" : "jobtitle1",
+                  "id" : "60a5434c0cd4e415537da6d8"
+                }
+              }
+            }
           }
         }
       },
@@ -1061,41 +1115,117 @@
           }
         }
       },
+      "body_1" : {
+        "required" : [ "status" ],
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string"
+          }
+        }
+      },
       "inline_response_200_1" : {
         "type" : "object",
         "properties" : {
-          "docs" : {
+          "gender" : {
+            "type" : "string"
+          },
+          "_id" : {
+            "type" : "string"
+          },
+          "createTime" : {
+            "type" : "integer"
+          },
+          "customFields" : {
+            "type" : "array",
+            "items" : { }
+          },
+          "customer" : {
+            "type" : "string"
+          },
+          "client" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "phone" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "facebook" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "__v" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "body_2" : {
+        "required" : [ "contact", "estimatedCloseTime", "name" ],
+        "type" : "object",
+        "properties" : {
+          "users" : {
             "type" : "array",
             "items" : {
-              "$ref" : "#/components/schemas/inline_response_200_1_docs"
+              "type" : "string"
             }
           },
-          "totalDocs" : {
+          "estimatedCloseTime" : {
             "type" : "integer"
           },
-          "limit" : {
+          "wonTime" : {
             "type" : "integer"
           },
-          "totalPages" : {
+          "lostTime" : {
             "type" : "integer"
           },
-          "page" : {
+          "cancelTime" : {
             "type" : "integer"
           },
-          "pagingCounter" : {
+          "notifyTime" : {
             "type" : "integer"
           },
-          "hasPrevPage" : {
-            "type" : "boolean"
+          "_id" : {
+            "type" : "string"
           },
-          "hasNextPage" : {
-            "type" : "boolean"
-          },
-          "prevPage" : {
+          "createTime" : {
             "type" : "integer"
           },
-          "nextPage" : {
+          "updateTime" : {
             "type" : "integer"
+          },
+          "customer" : {
+            "type" : "string"
+          },
+          "contact" : {
+            "type" : "string"
+          },
+          "user" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string"
+          },
+          "confidence" : {
+            "type" : "integer"
+          },
+          "amount" : {
+            "type" : "integer"
+          },
+          "id" : {
+            "type" : "string"
           }
         }
       },
@@ -1140,6 +1270,44 @@
       "inline_response_200_3" : {
         "type" : "object",
         "properties" : {
+          "docs" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/inline_response_200_3_docs"
+            }
+          },
+          "totalDocs" : {
+            "type" : "integer"
+          },
+          "limit" : {
+            "type" : "integer"
+          },
+          "totalPages" : {
+            "type" : "integer"
+          },
+          "page" : {
+            "type" : "integer"
+          },
+          "pagingCounter" : {
+            "type" : "integer"
+          },
+          "hasPrevPage" : {
+            "type" : "boolean"
+          },
+          "hasNextPage" : {
+            "type" : "boolean"
+          },
+          "prevPage" : {
+            "type" : "integer"
+          },
+          "nextPage" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_4" : {
+        "type" : "object",
+        "properties" : {
           "gender" : {
             "type" : "string"
           },
@@ -1148,10 +1316,6 @@
           },
           "createTime" : {
             "type" : "integer"
-          },
-          "customFields" : {
-            "type" : "array",
-            "items" : { }
           },
           "customer" : {
             "type" : "string"
@@ -1179,6 +1343,9 @@
           },
           "__v" : {
             "type" : "integer"
+          },
+          "id" : {
+            "type" : "string"
           }
         }
       },
@@ -1357,7 +1524,7 @@
           }
         }
       },
-      "inline_response_200_1_mainContact" : {
+      "inline_response_200_2_mainContact" : {
         "type" : "object",
         "properties" : {
           "gender" : {
@@ -1390,7 +1557,7 @@
           }
         }
       },
-      "inline_response_200_1_user" : {
+      "inline_response_200_2_user" : {
         "type" : "object",
         "properties" : {
           "active" : {
@@ -1470,7 +1637,7 @@
           }
         }
       },
-      "inline_response_200_1_docs" : {
+      "inline_response_200_2_docs" : {
         "type" : "object",
         "properties" : {
           "users" : {
@@ -1496,10 +1663,10 @@
             "type" : "integer"
           },
           "mainContact" : {
-            "$ref" : "#/components/schemas/inline_response_200_1_mainContact"
+            "$ref" : "#/components/schemas/inline_response_200_2_mainContact"
           },
           "user" : {
-            "$ref" : "#/components/schemas/inline_response_200_1_user"
+            "$ref" : "#/components/schemas/inline_response_200_2_user"
           },
           "customFields" : {
             "type" : "array",
@@ -1510,7 +1677,7 @@
           }
         }
       },
-      "inline_response_200_2_docs" : {
+      "inline_response_200_3_docs" : {
         "type" : "object",
         "properties" : {
           "active" : {
