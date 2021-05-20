@@ -17,7 +17,7 @@
     "api_key" : [ "token" ]
   } ],
   "tags" : [ {
-    "name" : "customer",
+    "name" : "contact",
     "description" : "These APIs support to create, get and update contact of customer. To use \"Click to call\" for creating a fast call please refer this document:[Phonenet SDK](https://github.com/gadgetvn/phonenet-sdk)"
   }, {
     "name" : "opportunity",
@@ -378,7 +378,7 @@
     },
     "/contact" : {
       "get" : {
-        "tags" : [ "customer" ],
+        "tags" : [ "contact" ],
         "summary" : "get contacts of customer",
         "operationId" : "getContacts",
         "parameters" : [ {
@@ -454,7 +454,7 @@
     },
     "/contact/{id}" : {
       "get" : {
-        "tags" : [ "customer" ],
+        "tags" : [ "contact" ],
         "summary" : "Get contact by id",
         "operationId" : "getContactById",
         "parameters" : [ {
@@ -500,7 +500,7 @@
         }
       },
       "put" : {
-        "tags" : [ "customer" ],
+        "tags" : [ "contact" ],
         "summary" : "Update contact of customer",
         "operationId" : "updateContact",
         "parameters" : [ {
@@ -542,7 +542,7 @@
         }
       },
       "delete" : {
-        "tags" : [ "customer" ],
+        "tags" : [ "contact" ],
         "summary" : "Delete contact of customer",
         "operationId" : "deleteContact",
         "parameters" : [ {
