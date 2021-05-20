@@ -167,7 +167,32 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/Opportunity"
+                "$ref" : "#/components/schemas/body"
+              },
+              "example" : {
+                "customer" : "60a547dc6e38c20161664fb0",
+                "confidence" : 50,
+                "contact" : {
+                  "_id" : "60a547dc6e38c20161664fb1",
+                  "gender" : "unknown",
+                  "createTime" : 1621444572211,
+                  "customFields" : [ ],
+                  "customer" : "60a547dc6e38c20161664fb0",
+                  "client" : "5e587b29356b577b2d0a279d",
+                  "name" : "bob",
+                  "phone" : 9.88868888E8,
+                  "email" : "abcs@gmail.com",
+                  "facebook" : "testfacesbook",
+                  "address" : "awesome address",
+                  "title" : "boss",
+                  "__v" : 0
+                },
+                "users" : [ "609972fe12a7a63e4cdce333" ],
+                "user" : "5efc5b11c441961ffe743f09",
+                "status" : "new",
+                "estimatedCloseTime" : 1621962000000,
+                "amount" : 2000000,
+                "name" : "rqrqwr"
               }
             }
           },
@@ -952,6 +977,90 @@
           } ]
         }
       },
+      "opportunity_contact" : {
+        "type" : "object",
+        "properties" : {
+          "_id" : {
+            "type" : "string"
+          },
+          "gender" : {
+            "type" : "string"
+          },
+          "createTime" : {
+            "type" : "integer"
+          },
+          "customFields" : {
+            "type" : "array",
+            "items" : { }
+          },
+          "customer" : {
+            "type" : "string"
+          },
+          "client" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "phone" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "facebook" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "__v" : {
+            "type" : "integer"
+          }
+        }
+      },
+      "body" : {
+        "required" : [ "amount", "contact", "estimatedCloseTime", "name" ],
+        "type" : "object",
+        "properties" : {
+          "customer" : {
+            "type" : "string"
+          },
+          "confidence" : {
+            "type" : "integer"
+          },
+          "contact" : {
+            "$ref" : "#/components/schemas/opportunity_contact"
+          },
+          "users" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "user" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string"
+          },
+          "estimatedCloseTime" : {
+            "type" : "integer"
+          },
+          "amount" : {
+            "type" : "integer"
+          },
+          "price" : {
+            "type" : "integer"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        }
+      },
       "inline_response_200_1" : {
         "type" : "object",
         "properties" : {
@@ -1118,51 +1227,6 @@
           }
         }
       },
-      "inline_response_200_contact" : {
-        "type" : "object",
-        "properties" : {
-          "_id" : {
-            "type" : "string"
-          },
-          "gender" : {
-            "type" : "string"
-          },
-          "createTime" : {
-            "type" : "integer"
-          },
-          "customFields" : {
-            "type" : "array",
-            "items" : { }
-          },
-          "customer" : {
-            "type" : "string"
-          },
-          "client" : {
-            "type" : "string"
-          },
-          "name" : {
-            "type" : "string"
-          },
-          "phone" : {
-            "type" : "string"
-          },
-          "email" : {
-            "type" : "string"
-          },
-          "facebook" : {
-            "type" : "string"
-          },
-          "address" : {
-            "type" : "string"
-          },
-          "title" : {
-            "type" : "string"
-          },
-          "__v" : {
-            "type" : "integer"
-          }
-        }
-      },
       "inline_response_200_user" : {
         "type" : "object",
         "properties" : {
@@ -1257,7 +1321,7 @@
             "$ref" : "#/components/schemas/inline_response_200_customer"
           },
           "contact" : {
-            "$ref" : "#/components/schemas/inline_response_200_contact"
+            "$ref" : "#/components/schemas/opportunity_contact"
           },
           "user" : {
             "$ref" : "#/components/schemas/inline_response_200_user"
