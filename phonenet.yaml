@@ -376,10 +376,11 @@
         }
       }
     },
-    "/customer" : {
+    "/contact" : {
       "get" : {
         "tags" : [ "customer" ],
-        "summary" : "Get customer contacts",
+        "summary" : "get contacts of customer",
+        "operationId" : "getContacts",
         "parameters" : [ {
           "name" : "page",
           "in" : "query",
@@ -388,69 +389,17 @@
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "number"
+            "type" : "string"
           }
         }, {
           "name" : "pageSize",
           "in" : "query",
-          "description" : "Number of records per page",
+          "description" : "Number record per page",
           "required" : true,
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "number"
-          }
-        }, {
-          "name" : "keyword",
-          "in" : "query",
-          "description" : "Search keyword",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
             "type" : "string"
-          }
-        }, {
-          "name" : "group",
-          "in" : "query",
-          "description" : "Search by group",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "user",
-          "in" : "query",
-          "description" : "Search by id of assignee",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "findIn",
-          "in" : "query",
-          "description" : "Search by:\n * `contact` - Contact info\n * `customer` - Customer info\n",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string",
-            "enum" : [ "contact", "customer" ]
-          }
-        }, {
-          "name" : "sort",
-          "in" : "query",
-          "description" : "Sort order:\n * `createTimeDESC` - New to old\n * `createTimeASC` - Old to new\n * `updateTimeDESC` - Recently update\n * `updateTimeASC` - Not recently update\n * `nameASC` - Name A to Z\n * `nameDESC` - Name Z to A\n",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string",
-            "enum" : [ "createTimeDESC", "createTimeASC", "updateTimeDESC", "updateTimeASC", "nameASC", "nameDESC" ]
           }
         } ],
         "responses" : {
@@ -460,142 +409,42 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/inline_response_200_2"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Invalid username/password supplied"
-          }
-        }
-      },
-      "post" : {
-        "tags" : [ "customer" ],
-        "summary" : "Create new customer",
-        "operationId" : "createCustomer",
-        "requestBody" : {
-          "description" : "Optional description in *Markdown*",
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/Customer"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "200" : {
-            "description" : "OK"
-          }
-        }
-      }
-    },
-    "/user" : {
-      "get" : {
-        "tags" : [ "customer" ],
-        "summary" : "Get the contact list of internal customer",
-        "operationId" : "internalCustomer",
-        "parameters" : [ {
-          "name" : "status",
-          "in" : "query",
-          "description" : "available status:\n  * `0` - active\n  * `1` - not active\n",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "number",
-            "enum" : [ 0, 1 ]
-          }
-        }, {
-          "name" : "page",
-          "in" : "query",
-          "description" : "The beginning position of list",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "number"
-          }
-        }, {
-          "name" : "pageSize",
-          "in" : "query",
-          "description" : "Number of records per page",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "number"
-          }
-        }, {
-          "name" : "keyword",
-          "in" : "query",
-          "description" : "Search by keyword",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "group",
-          "in" : "query",
-          "description" : "Search by group",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "sort",
-          "in" : "query",
-          "description" : "Sort order:\n * `createTimeDESC` - New to old\n * `createTimeASC` - Old to new\n * `nameASC` - Name A to Z\n * `nameDESC` - Name Z to A\n",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string",
-            "enum" : [ "createTimeDESC", "createTimeDESC", "nameASC", "nameDESC" ]
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_200_3"
                 },
                 "example" : {
                   "docs" : [ {
-                    "active" : true,
-                    "role" : "owner",
-                    "updateTime" : 0,
-                    "lastOnlineTime" : 0,
-                    "_id" : "60a26ce6d6381856dd400340",
-                    "email" : "duynguyen@smart-one.io",
-                    "password" : "$2a$10$yn../k0B84.guNLwKQhmpOW1STlVi5sUG0yOp.DBSo5T1SVna1v4u",
-                    "name" : "Nguyễn Duy",
-                    "phone" : "",
-                    "ext" : "80008",
-                    "extPassword" : "a12345678",
-                    "createTime" : 1621257446467,
+                    "gender" : "unknown",
+                    "_id" : "60a547dc6e38c20161664fb1",
+                    "createTime" : 1621444572211,
+                    "customFields" : [ ],
+                    "customer" : {
+                      "users" : [ ],
+                      "_id" : "60a547dc6e38c20161664fb0",
+                      "createTime" : 1621444572210,
+                      "updateTime" : 1621470286379,
+                      "name" : "company 3",
+                      "client" : "5e587b29356b577b2d0a279d",
+                      "__v" : 1,
+                      "mainContact" : "60a547dc6e38c20161664fb1",
+                      "user" : "5efc5b11c441961ffe743f09",
+                      "customFields" : [ ],
+                      "id" : "60a547dc6e38c20161664fb0"
+                    },
                     "client" : "5e587b29356b577b2d0a279d",
-                    "language" : "vi",
-                    "__v" : 0,
-                    "socketId" : "/client#1ftbS_Gyp7waQ3HmBChT",
-                    "desc" : "",
-                    "id" : "60a26ce6d6381856dd400340"
+                    "name" : "bob",
+                    "phone" : 9.88868888E8,
+                    "email" : "abcs@gmail.com",
+                    "facebook" : "testfacesbook",
+                    "address" : "awesome address",
+                    "title" : "boss",
+                    "__v" : 0
                   } ],
-                  "totalDocs" : 26,
-                  "limit" : 1,
-                  "totalPages" : 26,
+                  "totalDocs" : 1,
+                  "limit" : 5,
+                  "totalPages" : 1,
                   "page" : 1,
                   "pagingCounter" : 1,
                   "hasPrevPage" : false,
-                  "hasNextPage" : true,
-                  "nextPage" : 2
+                  "hasNextPage" : false
                 }
               }
             }
@@ -671,7 +520,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_200_4"
+                  "$ref" : "#/components/schemas/inline_response_200_3"
                 },
                 "example" : {
                   "gender" : "unknown",
@@ -1270,44 +1119,6 @@
       "inline_response_200_3" : {
         "type" : "object",
         "properties" : {
-          "docs" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/inline_response_200_3_docs"
-            }
-          },
-          "totalDocs" : {
-            "type" : "integer"
-          },
-          "limit" : {
-            "type" : "integer"
-          },
-          "totalPages" : {
-            "type" : "integer"
-          },
-          "page" : {
-            "type" : "integer"
-          },
-          "pagingCounter" : {
-            "type" : "integer"
-          },
-          "hasPrevPage" : {
-            "type" : "boolean"
-          },
-          "hasNextPage" : {
-            "type" : "boolean"
-          },
-          "prevPage" : {
-            "type" : "integer"
-          },
-          "nextPage" : {
-            "type" : "integer"
-          }
-        }
-      },
-      "inline_response_200_4" : {
-        "type" : "object",
-        "properties" : {
           "gender" : {
             "type" : "string"
           },
@@ -1524,120 +1335,7 @@
           }
         }
       },
-      "inline_response_200_2_mainContact" : {
-        "type" : "object",
-        "properties" : {
-          "gender" : {
-            "type" : "string"
-          },
-          "_id" : {
-            "type" : "string"
-          },
-          "createTime" : {
-            "type" : "integer"
-          },
-          "customFields" : {
-            "type" : "array",
-            "items" : { }
-          },
-          "customer" : {
-            "type" : "string"
-          },
-          "client" : {
-            "type" : "string"
-          },
-          "name" : {
-            "type" : "string"
-          },
-          "phone" : {
-            "type" : "string"
-          },
-          "__v" : {
-            "type" : "integer"
-          }
-        }
-      },
-      "inline_response_200_2_user" : {
-        "type" : "object",
-        "properties" : {
-          "active" : {
-            "type" : "boolean"
-          },
-          "role" : {
-            "type" : "string"
-          },
-          "updateTime" : {
-            "type" : "integer"
-          },
-          "lastOnlineTime" : {
-            "type" : "integer"
-          },
-          "_id" : {
-            "type" : "string"
-          },
-          "createTime" : {
-            "type" : "integer"
-          },
-          "client" : {
-            "type" : "string"
-          },
-          "email" : {
-            "type" : "string"
-          },
-          "password" : {
-            "type" : "string"
-          },
-          "ext" : {
-            "type" : "string"
-          },
-          "extPassword" : {
-            "type" : "string"
-          },
-          "name" : {
-            "type" : "string"
-          },
-          "phone" : {
-            "type" : "string"
-          },
-          "__v" : {
-            "type" : "integer"
-          },
-          "forwardToPhoneIfBusy" : {
-            "type" : "boolean"
-          },
-          "forwardToPhoneIfOffline" : {
-            "type" : "boolean"
-          },
-          "forwardToPhoneIfTimeout" : {
-            "type" : "boolean"
-          },
-          "socketId" : {
-            "type" : "string"
-          },
-          "desc" : {
-            "type" : "string"
-          },
-          "language" : {
-            "type" : "string"
-          },
-          "online" : {
-            "type" : "boolean"
-          },
-          "group" : {
-            "type" : "string"
-          },
-          "resetPasswordToken" : {
-            "type" : "string"
-          },
-          "resetPasswordTokenTime" : {
-            "type" : "integer"
-          },
-          "id" : {
-            "type" : "string"
-          }
-        }
-      },
-      "inline_response_200_2_docs" : {
+      "inline_response_200_2_customer" : {
         "type" : "object",
         "properties" : {
           "users" : {
@@ -1663,10 +1361,10 @@
             "type" : "integer"
           },
           "mainContact" : {
-            "$ref" : "#/components/schemas/inline_response_200_2_mainContact"
+            "type" : "string"
           },
           "user" : {
-            "$ref" : "#/components/schemas/inline_response_200_2_user"
+            "type" : "string"
           },
           "customFields" : {
             "type" : "array",
@@ -1677,31 +1375,26 @@
           }
         }
       },
-      "inline_response_200_3_docs" : {
+      "inline_response_200_2_docs" : {
         "type" : "object",
         "properties" : {
-          "active" : {
-            "type" : "boolean"
-          },
-          "role" : {
+          "gender" : {
             "type" : "string"
-          },
-          "updateTime" : {
-            "type" : "integer"
-          },
-          "lastOnlineTime" : {
-            "type" : "integer"
           },
           "_id" : {
             "type" : "string"
           },
-          "group" : {
-            "type" : "string"
+          "createTime" : {
+            "type" : "integer"
           },
-          "email" : {
-            "type" : "string"
+          "customFields" : {
+            "type" : "array",
+            "items" : { }
           },
-          "password" : {
+          "customer" : {
+            "$ref" : "#/components/schemas/inline_response_200_2_customer"
+          },
+          "client" : {
             "type" : "string"
           },
           "name" : {
@@ -1710,32 +1403,20 @@
           "phone" : {
             "type" : "string"
           },
-          "ext" : {
+          "email" : {
             "type" : "string"
           },
-          "extPassword" : {
+          "facebook" : {
             "type" : "string"
           },
-          "createTime" : {
-            "type" : "integer"
-          },
-          "client" : {
+          "address" : {
             "type" : "string"
           },
-          "language" : {
+          "title" : {
             "type" : "string"
           },
           "__v" : {
             "type" : "integer"
-          },
-          "socketId" : {
-            "type" : "string"
-          },
-          "desc" : {
-            "type" : "string"
-          },
-          "id" : {
-            "type" : "string"
           }
         }
       }
