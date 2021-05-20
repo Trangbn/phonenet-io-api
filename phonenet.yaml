@@ -2,7 +2,7 @@
   "openapi" : "3.0.0",
   "info" : {
     "title" : "Phonenet APIs",
-    "description" : "This is Phonenet API on sandbox environment. For this sample, you can use the api key to test the authorization filters. For the product environment, use this server  https://clientapi.phonenet.io.",
+    "description" : "- Tích hợp nghe gọi ở front end:<space> [Phonenet SDK](https://github.com/gadgetvn/phonenet-sdk)\n- Kết nối backend API:<space> Lấy token bằng cách đăng nhập vào tài khoản Callio đã được cung cấp, vào menu Cài đặt / Token. Truyền token vào header mỗi khi gửi request\n",
     "termsOfService" : "http://swagger.io/terms/",
     "contact" : {
       "email" : "trangbn@gadget.com.vn"
@@ -10,8 +10,8 @@
     "version" : "1.0.0"
   },
   "servers" : [ {
-    "url" : "https://clientapidev.phonenet.io",
-    "description" : "Phonenet API Auto Mocking"
+    "url" : "https://clientapi.phonenet.io",
+    "description" : "Phonenet API"
   } ],
   "security" : [ {
     "api_key" : [ "token" ]
@@ -20,13 +20,44 @@
     "name" : "user",
     "description" : "Lấy danh sách, thêm, sửa, dừng hoạt động, kích hoạt người dùng"
   }, {
+    "name" : "customer",
+    "description" : "Lấy danh sách, thêm, sửa, xóa khách hàng"
+  }, {
     "name" : "contact",
-    "description" : "These APIs support to create, get and update contact of customer. To use \"Click to call\" for creating a fast call please refer this document:[Phonenet SDK](https://github.com/gadgetvn/phonenet-sdk)"
+    "description" : "Lấy danh sách, thêm, sửa, xóa liên hệ"
   }, {
     "name" : "opportunity",
     "description" : "These APIs support to create, get and update information of opportunity"
   } ],
   "paths" : {
+    "/user" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "pageSize",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Thành công"
+          }
+        }
+      }
+    },
     "/opportunity" : {
       "get" : {
         "tags" : [ "opportunity" ],
