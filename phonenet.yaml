@@ -650,6 +650,48 @@
           }
         }
       },
+      "put" : {
+        "tags" : [ "customer" ],
+        "summary" : "Update contact of customer",
+        "operationId" : "updateContact",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "The id of contact",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "response body",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_4"
+                },
+                "example" : {
+                  "gender" : "unknown",
+                  "_id" : "60a5434c0cd4e415537da6d8",
+                  "createTime" : 1621443404152,
+                  "customer" : "60a5434c0cd4e415537da6d7",
+                  "client" : "5e587b29356b577b2d0a279d",
+                  "name" : "contactname",
+                  "phone" : 9.88888886E8,
+                  "email" : "comany2@gadget.com.vn",
+                  "facebook" : "noface",
+                  "address" : "awesomeaddress ",
+                  "title" : "jobtitle1",
+                  "id" : "60a5434c0cd4e415537da6d8"
+                }
+              }
+            }
+          }
+        }
+      },
       "delete" : {
         "tags" : [ "customer" ],
         "summary" : "Delete contact of customer",
@@ -1260,6 +1302,50 @@
           },
           "nextPage" : {
             "type" : "integer"
+          }
+        }
+      },
+      "inline_response_200_4" : {
+        "type" : "object",
+        "properties" : {
+          "gender" : {
+            "type" : "string"
+          },
+          "_id" : {
+            "type" : "string"
+          },
+          "createTime" : {
+            "type" : "integer"
+          },
+          "customer" : {
+            "type" : "string"
+          },
+          "client" : {
+            "type" : "string"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "phone" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string"
+          },
+          "facebook" : {
+            "type" : "string"
+          },
+          "address" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "__v" : {
+            "type" : "integer"
+          },
+          "id" : {
+            "type" : "string"
           }
         }
       },
