@@ -17,6 +17,9 @@
     "api_key" : [ "token" ]
   } ],
   "tags" : [ {
+    "name" : "user",
+    "description" : "Lấy danh sách, thêm, sửa, dừng hoạt động, kích hoạt người dùng"
+  }, {
     "name" : "contact",
     "description" : "These APIs support to create, get and update contact of customer. To use \"Click to call\" for creating a fast call please refer this document:[Phonenet SDK](https://github.com/gadgetvn/phonenet-sdk)"
   }, {
