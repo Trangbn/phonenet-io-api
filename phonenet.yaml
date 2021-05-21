@@ -20,6 +20,9 @@
     "name" : "user",
     "description" : "Lấy danh sách, thêm, sửa, người dùng"
   }, {
+    "name" : "user-group",
+    "description" : "Lấy danh sách, thêm, sửa, xóa nhóm người dùng"
+  }, {
     "name" : "customer",
     "description" : "Lấy danh sách, thêm, sửa, xóa khách hàng"
   }, {
@@ -352,6 +355,318 @@
         }
       }
     },
+    "/user-group" : {
+      "get" : {
+        "tags" : [ "group" ],
+        "summary" : "Lấy danh sách người dùng",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "pageSize",
+          "in" : "query",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Lấy danh sách nhóm thành công",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "group" ],
+        "summary" : "Thêm mới người dùng",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_2"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Thêm mới người dùng thành công",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                },
+                "examples" : {
+                  "user1" : {
+                    "$ref" : "#/components/examples/User1"
+                  },
+                  "user2" : {
+                    "$ref" : "#/components/examples/User2"
+                  }
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "Lỗi validate",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errors"
+                },
+                "example" : [ {
+                  "value" : "",
+                  "msg" : "Thông tin bắt buộc",
+                  "param" : "email",
+                  "location" : "body"
+                }, {
+                  "value" : "",
+                  "msg" : "Email không đúng",
+                  "param" : "email",
+                  "location" : "body"
+                }, {
+                  "value" : "",
+                  "msg" : "Thông tin bắt buộc",
+                  "param" : "password",
+                  "location" : "body"
+                }, {
+                  "value" : "",
+                  "msg" : "Phải dài từ 7 đến 25 ký tự",
+                  "param" : "password",
+                  "location" : "body"
+                }, {
+                  "value" : "",
+                  "msg" : "Thông tin bắt buộc",
+                  "param" : "ext",
+                  "location" : "body"
+                }, {
+                  "value" : "",
+                  "msg" : "Phải là số nguyên",
+                  "param" : "ext",
+                  "location" : "body"
+                }, {
+                  "value" : "",
+                  "msg" : "5 hoặc 6 số, không bắt đầu bằng 0",
+                  "param" : "ext",
+                  "location" : "body"
+                }, {
+                  "value" : "",
+                  "msg" : "Thông tin bắt buộc",
+                  "param" : "extPassword",
+                  "location" : "body"
+                }, {
+                  "msg" : "Thông tin bắt buộc",
+                  "param" : "name",
+                  "location" : "body"
+                } ]
+              }
+            }
+          },
+          "403" : {
+            "description" : "Không có quyền thực hiện hành động",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_403"
+                },
+                "example" : {
+                  "message" : "Bạn không có quyền thực hiện hành động này"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user-group/{id}" : {
+      "get" : {
+        "tags" : [ "group" ],
+        "summary" : "Lấy chi tiết thông tin người dùng theo _id",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "_id của user",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Lấy thông tin chi tiết người dùng thành công",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                },
+                "examples" : {
+                  "user1" : {
+                    "$ref" : "#/components/examples/User1"
+                  },
+                  "user2" : {
+                    "$ref" : "#/components/examples/User2"
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Không tìm thấy dữ liệu",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_403"
+                },
+                "example" : {
+                  "message" : "Không tìm thấy dữ liệu"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "group" ],
+        "summary" : "Cập nhật thông tin người dùng",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "_id của người dùng",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/body_3"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Cập nhật thành công",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                },
+                "examples" : {
+                  "user2" : {
+                    "$ref" : "#/components/examples/User2"
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Không tìm thấy dữ liệu",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_403"
+                },
+                "example" : {
+                  "message" : "Không tìm thấy dữ liệu"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Không có quyền thực hiện hành động",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_403"
+                },
+                "example" : {
+                  "message" : "Bạn không có quyền thực hiện hành động này"
+                }
+              }
+            }
+          },
+          "422" : {
+            "description" : "Lỗi validate",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/errors"
+                },
+                "example" : [ {
+                  "value" : "",
+                  "msg" : "Thông tin bắt buộc",
+                  "param" : "email",
+                  "location" : "body"
+                }, {
+                  "value" : "",
+                  "msg" : "Email không đúng",
+                  "param" : "email",
+                  "location" : "body"
+                }, {
+                  "value" : "",
+                  "msg" : "Thông tin bắt buộc",
+                  "param" : "password",
+                  "location" : "body"
+                }, {
+                  "value" : "",
+                  "msg" : "Phải dài từ 7 đến 25 ký tự",
+                  "param" : "password",
+                  "location" : "body"
+                }, {
+                  "value" : "",
+                  "msg" : "Thông tin bắt buộc",
+                  "param" : "ext",
+                  "location" : "body"
+                }, {
+                  "value" : "",
+                  "msg" : "Phải là số nguyên",
+                  "param" : "ext",
+                  "location" : "body"
+                }, {
+                  "value" : "",
+                  "msg" : "5 hoặc 6 số, không bắt đầu bằng 0",
+                  "param" : "ext",
+                  "location" : "body"
+                }, {
+                  "value" : "",
+                  "msg" : "Thông tin bắt buộc",
+                  "param" : "extPassword",
+                  "location" : "body"
+                }, {
+                  "msg" : "Thông tin bắt buộc",
+                  "param" : "name",
+                  "location" : "body"
+                } ]
+              }
+            }
+          }
+        }
+      }
+    },
     "/opportunity" : {
       "get" : {
         "tags" : [ "opportunity" ],
@@ -495,7 +810,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/body_2"
+                "$ref" : "#/components/schemas/body_4"
               },
               "example" : {
                 "customer" : "60a547dc6e38c20161664fb0",
@@ -554,7 +869,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/body_3"
+                "$ref" : "#/components/schemas/body_5"
               },
               "example" : {
                 "status" : "new"
@@ -672,7 +987,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/body_4"
+                "$ref" : "#/components/schemas/body_6"
               },
               "example" : {
                 "users" : [ "609972fe12a7a63e4cdce333" ],
@@ -1084,6 +1399,10 @@
             "type" : "integer",
             "description" : "Thời gian tạo. Timestamp milliseconds"
           },
+          "desc" : {
+            "type" : "string",
+            "description" : "Mô tả user"
+          },
           "email" : {
             "type" : "string"
           },
@@ -1116,6 +1435,35 @@
           "_id" : {
             "type" : "string",
             "description" : "_id của user (ObjectId)"
+          }
+        }
+      },
+      "Group" : {
+        "type" : "object",
+        "properties" : {
+          "active" : {
+            "type" : "boolean",
+            "description" : "Tình trạng group có đang được hoạt động hay không"
+          },
+          "createTime" : {
+            "type" : "integer",
+            "description" : "Thời gian tạo. Timestamp milliseconds"
+          },
+          "desc" : {
+            "type" : "string",
+            "description" : "Mô tả group"
+          },
+          "ext" : {
+            "type" : "string",
+            "description" : "Số máy nhánh của group"
+          },
+          "name" : {
+            "type" : "string",
+            "description" : "tên gropu"
+          },
+          "_id" : {
+            "type" : "string",
+            "description" : "_id của group (ObjectId)"
           }
         }
       },
@@ -1218,6 +1566,94 @@
         }
       },
       "body_1" : {
+        "required" : [ "email", "ext", "extPassword", "name", "role" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "Tên dài không quá 50 ký tự"
+          },
+          "email" : {
+            "type" : "string",
+            "description" : "Email cần phải là duy nhất trên toàn hệ thống"
+          },
+          "phone" : {
+            "type" : "string",
+            "description" : "Số điện thoại chỉ chứa ký tự số, dài từ 7 đến 15 ký tự"
+          },
+          "desc" : {
+            "type" : "string",
+            "description" : "Mô tả user. Dài không quá 500 ký tự"
+          },
+          "ext" : {
+            "type" : "string",
+            "description" : "Số nhánh của user. Có thể là 1 giá trị trong khoảng từ 10000 đến 999999 và phải là duy nhất"
+          },
+          "extPassword" : {
+            "type" : "string",
+            "description" : "Mật khẩu nhánh dài từ 7 đến 25 ký tự, chỉ chứa các ký tự chữ và số và -"
+          },
+          "group" : {
+            "type" : "string",
+            "description" : "_id của nhóm user"
+          },
+          "role" : {
+            "type" : "string",
+            "description" : "Mã quyền của user. Có 3 quyền mặc định là owner (chủ tài khoản), supervisor (trưởng nhóm) và agent (nhân viên). Các quyền tùy biến khác có thể được tạo ra ở menu Cài đặt / quyền"
+          },
+          "active" : {
+            "type" : "boolean",
+            "description" : "Cho phép tài khoản được hoạt động hay không. Nếu không truyền giá trị thì đồng nghĩa với active = false"
+          }
+        }
+      },
+      "body_2" : {
+        "required" : [ "email", "ext", "extPassword", "name", "password", "role" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "description" : "Tên dài không quá 50 ký tự"
+          },
+          "email" : {
+            "type" : "string",
+            "description" : "Email cần phải là duy nhất trên toàn hệ thống"
+          },
+          "password" : {
+            "type" : "string",
+            "description" : "Mật khẩu dài từ 7 đến 25 ký tự"
+          },
+          "phone" : {
+            "type" : "string",
+            "description" : "Số điện thoại chỉ chứa ký tự số, dài từ 7 đến 15 ký tự"
+          },
+          "desc" : {
+            "type" : "string",
+            "description" : "Mô tả user. Dài không quá 500 ký tự"
+          },
+          "ext" : {
+            "type" : "string",
+            "description" : "Số nhánh của user. Có thể là 1 giá trị trong khoảng từ 10000 đến 999999 và phải là duy nhất"
+          },
+          "extPassword" : {
+            "type" : "string",
+            "description" : "Mật khẩu nhánh dài từ 7 đến 25 ký tự, chỉ chứa các ký tự chữ và số và -"
+          },
+          "group" : {
+            "type" : "string",
+            "description" : "_id của nhóm user"
+          },
+          "role" : {
+            "type" : "string",
+            "description" : "Mã quyền của user. Có 3 quyền mặc định là owner (chủ tài khoản), supervisor (trưởng nhóm) và agent (nhân viên). Các quyền tùy biến khác có thể được tạo ra ở menu Cài đặt / quyền"
+          },
+          "active" : {
+            "type" : "boolean",
+            "description" : "Cho phép tài khoản được hoạt động hay không. Nếu không truyền giá trị thì đồng nghĩa với active = false"
+          }
+        }
+      },
+      "body_3" : {
         "required" : [ "email", "ext", "extPassword", "name", "role" ],
         "type" : "object",
         "properties" : {
@@ -1439,7 +1875,7 @@
           }
         }
       },
-      "body_2" : {
+      "body_4" : {
         "required" : [ "amount", "contact", "estimatedCloseTime", "name" ],
         "type" : "object",
         "properties" : {
@@ -1478,7 +1914,7 @@
           }
         }
       },
-      "body_3" : {
+      "body_5" : {
         "required" : [ "status" ],
         "type" : "object",
         "properties" : {
@@ -1532,7 +1968,7 @@
           }
         }
       },
-      "body_4" : {
+      "body_6" : {
         "required" : [ "contact", "estimatedCloseTime", "name" ],
         "type" : "object",
         "properties" : {
