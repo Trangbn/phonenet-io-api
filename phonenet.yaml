@@ -3,6 +3,8 @@ openapi: 3.0.0
 servers:
   - description: Sandbox
     url: https://clientapidev.phonenet.io
+security:
+  - ApiKeyAuth: ["token"]
 info:
   description: |
     - MÔ HÌNH TÍCH HỢP
@@ -1395,6 +1397,11 @@ paths:
                 __v: 0
                 _id: "60a8aa77dc4f0142fc0d7c87"
 components:
+  securitySchemes:
+    ApiKeyAuth:
+        type: apiKey
+        in: header
+        name: token
   schemas:
     Call:
       type: object
@@ -2219,10 +2226,3 @@ components:
                 confidence:
                   type: integer
                   description: Độ tự tin sẽ chốt được cơ hội. Là số nguyên trong khoảng từ 0 đến 100
-  # securitySchemes:
-  #   api_key:
-  #     type: apiKey
-  #     name: token
-  #     in: header
-# security:
-#   - api_key: ['token']
