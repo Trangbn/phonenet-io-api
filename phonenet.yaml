@@ -37,6 +37,8 @@ tags:
     description: (oportunity)
   - name: Chiến dịch gọi
     description: (call-campaign)
+  - name: SMS
+    description: (sms, sms-brand-name, sms-template)
 paths:
   /call:
     get:
@@ -1395,6 +1397,237 @@ paths:
                 updateTime: 1621666423673
                 __v: 0
                 _id: "60a8aa77dc4f0142fc0d7c87"
+  /sms-brand-name:
+    get:
+      tags:
+        - SMS
+      summary: Lấy danh sách brand name
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: status
+          in: query
+          schema:
+            type: string
+          description: Truyền vào 'activated' để lấy danh sách những brand name đã được duyệt
+      responses:
+        '200':
+          description: Lấy danh sách template thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  docs:
+                    type: array
+                    items: 
+                      $ref: '#/components/schemas/SMSBrandName'
+                  totalDocs:
+                    type: integer
+                  limit:
+                    type: integer
+                  totalPages:
+                    type: integer
+                  page:
+                    type: integer
+                  pagingCounter:
+                    type: integer
+                  hasPrevPage:
+                    type: boolean
+                  hasNextPage:
+                    type: boolean
+                  prevPage:
+                    type: integer
+                  nextPage:
+                    type: integer
+  /sms-template:
+    get:
+      tags:
+        - SMS
+      summary: Lấy danh sách template
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: brandName
+          in: query
+          schema:
+            type: string
+          description: Truyền vào _id của brand name để lấy danh sách những template thuộc về brand name đó
+        - name: status
+          in: query
+          schema:
+            type: string
+          description: Truyền vào 'activated' để lấy danh sách những template đã được duyệt
+      responses:
+        '200':
+          description: Lấy danh sách template thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  docs:
+                    type: array
+                    items: 
+                      $ref: '#/components/schemas/SMSTemplate'
+                  totalDocs:
+                    type: integer
+                  limit:
+                    type: integer
+                  totalPages:
+                    type: integer
+                  page:
+                    type: integer
+                  pagingCounter:
+                    type: integer
+                  hasPrevPage:
+                    type: boolean
+                  hasNextPage:
+                    type: boolean
+                  prevPage:
+                    type: integer
+                  nextPage:
+                    type: integer
+  /sms:
+    get:
+      tags:
+        - SMS
+      summary: Lịch sử SMS
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: from
+          in: query
+          schema:
+            type: integer
+          description: Thời gian gửi, từ. Unix epoch time. Milliseconds
+        - name: to
+          in: query
+          schema:
+            type: integer
+          description: Thời gian gửi, tới. Unix epoch time. Milliseconds\
+        - name: type
+          in: query
+          schema:
+            type: string
+          description: |
+            Loại tin nhắn. 
+              - care:<space> tin CSKH 
+              - ads:<space> tin quảng cáo
+        - name: status
+          in: query
+          schema:
+            type: string
+          description: |
+            Trạng thái tin
+              - sending:<space> Đang gửi
+              - success:<space> Gửi thành công
+              - fail:<space> Gửi thất bại
+      responses:
+        '200':
+          description: Lấy danh sách sms thành công
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  docs:
+                    type: array
+                    items: 
+                      $ref: '#/components/schemas/SMS'
+                  totalDocs:
+                    type: integer
+                  limit:
+                    type: integer
+                  totalPages:
+                    type: integer
+                  page:
+                    type: integer
+                  pagingCounter:
+                    type: integer
+                  hasPrevPage:
+                    type: boolean
+                  hasNextPage:
+                    type: boolean
+                  prevPage:
+                    type: integer
+                  nextPage:
+                    type: integer
+    post:
+      tags: 
+        - SMS
+      summary: Gửi tin nhắn CSKH
+      description: |
+        - Xem schema để biết thêm thông tin về các trường dữ liệu có thể truyền lên trong request body
+        - Trước khi có thể gửi được tin nhắn CSKH ở môi trường production, cần đăng ký brand name và template trên [client.callio.vn](client.callio.vn). Chỉ có thể gửi được tin sau khi brand name và template được duyệt. Quá trình đăng ký brand name và template thường mất khoảng 2 tuần.
+        - Lưu ý:<space> Sau khi gọi API thành công, dữ liệu trả về chưa có sendTime và sendError vì thực tế ở bước này, hệ thống chưa tiến hành gửi tin nhắn. Để biết tin đã được gửi hay chưa, có thành công hay không, cần dùng GET /sms
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - template
+                - number
+                - content
+              properties:
+                number:
+                  type: string
+                  description: Số điện thoại muốn gửi tin
+                template:
+                  type: string
+                  description: _id của template muốn sử dụng. Lấy _id ở [client.callio.vn](client.callio.vn) trong phần Cài đặt / Kênh giao tiếp / SMS / Danh sách mẫu. (hoặc gọi API GET /template) Chú ý:<space> template và brand name mà template thuộc về đều phải được duyệt trước đó
+                content:
+                  type: string
+                  description: Nội dung tin. Nội dung cần đúng với template đã đăng ký
+      responses:
+        '200':
+          description: Yêu cầu gửi tin được tạo thành công
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SMS'
+              example:
+                brandName: "5f854ef34d739038f00fc673"
+                client: "5e587b29356b577b2d0a279d"
+                content: "Callio TB: TK cua quy khach se het han vao 0h ngay 10/06/2021. Vui long gia han truoc thoi diem nay de ko bi gian doan dich vu. Xin cam on!"
+                createTime: 1622052861035
+                direction: "outbound"
+                gateway: "5f86ba3979bf8b5476344d1c"
+                group: "5e587d12976eb31ef43d10d0"
+                id: "60ae8ffd8a12233ee04c157c"
+                number: "0941883579"
+                sendTime: 0
+                template: "5fb242ddd4b03e0db4a03f3b"
+                type: "care"
+                user: "5e587b54356b577b2d0a279e"
+                __v: 0
+                _id: "60ae8ffd8a12233ee04c157c"
 components:
   schemas:
     Call:
@@ -1737,6 +1970,96 @@ components:
           type: integer
         _id: 
           type: string
+    SMSTemplate:
+      type: object
+      properties:
+        approveTime:
+          type: integer
+          description: Thời gian duyệt. Unix epoch time. Miliseconds
+        brandName:
+          type: string
+          description: _id của brand name mà template đó thuộc về
+        content:
+          type: string
+          description: Nội dung template
+        createTime:
+          type: integer
+          description: Tạo lúc. Unix epoch time. Miliseconds
+        denyTime:
+          type: integer
+          description: Bị từ chối lúc. Unix epoch time. Miliseconds
+        msgLength:
+          type: integer
+          description: Độ dài tối đa của tin nhắn sử dụng template này
+        name:
+          type: string
+          description: Tên template
+    SMSBrandName:
+      type: object
+      properties:
+        ads: 
+          type: boolean
+          description: Brand name có đăng ký gửi tin quảng cáo hay không
+        approveTime:
+          type: integer
+          description: Thời gian duyệt. Unix epoch time. Miliseconds
+        care: 
+          type: boolean
+          description: Brand name có đăng ký gửi tin CSKH hay không
+        createTime:
+          type: integer
+          description: Tạo lúc. Unix epoch time. Miliseconds
+        denyTime:
+          type: integer
+          description: Bị từ chối lúc. Unix epoch time. Miliseconds
+        desc: 
+          type: string
+          description: Mô tả brand name
+        name:
+          type: string
+          description: Tên brand name
+    SMS:
+      type: object
+      properties:
+        brandName: 
+          type: string
+          description: _id của brand name mà tin nhắn được gửi từ
+        chargeTime:
+          type: integer
+          description: Tính tiền lúc. Unix epoch time. Miliseconds
+        chargedFee:
+          type: integer
+          description: Phí gửi tin
+        content:
+          type: string
+          description: Nội dung tin đã gửi
+        createTime:
+          type: integer
+          description: Tạo lúc. Unix epoch time. Miliseconds
+        number:
+          type: string
+          description: Số điện thoại mà tin nhắn được gửi đến
+        sendError:
+          type: boolean
+          description: true có nghĩa là có lỗi khi gửi
+        sendErrorMsg:
+          type: string
+          description: Mô tả cụ thể lỗi khi gửi
+        sendTime:
+          type: integer
+          description: Gửi lúc. Unix epoch time. Miliseconds
+        template:
+          type: string
+          description: _id của template
+        type:
+          type: string
+          description: Loại tin nhắn. 'ads' là tin quảng cáo. 'care' là tin CSKH
+        user:
+          type: string
+          description: _id của user đã gửi tin nhắn
+        _id: 
+          type: string
+          description: ObjectId của tin nhắn
     errors:
       type: array
       items: 
